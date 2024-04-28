@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>TO-DO App</title>
+    <style> 
+        body { 
+            font-family: Arial, sans-serif;
+            background-color: #111; 
+            color: #fff; 
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 {
+            color: white;
+        }
+        .task {
+            background-color: #333;
+            color: #fff;
+            padding: 10px; 
+            margin: 5px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .pending { 
+            color: #ff6347; 
+        }
+        .completed {
+            color: #00ff00; 
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px; 
+            margin-right: 10px;
+        } 
+        button {
+            padding: 10px 20px; 
+            font-size: 16px;
+        } 
+        p {
+            margin: 10px;
+            color: #fff;
+        }
+        span {
+            font-weight: bold;
+        }
+    </style> 
+</head> 
+<body> 
+    <div class="container">
+        <h1>TO-DO</h1>
+        <input type="text" id="taskInput" placeholder="Add a new task..."> 
+        <button onclick="addTask()">Add Task</button> 
+        <div id="tasks"></div>
+        <p>Pending tasks: <span id="pendingTasks">0</span></p> 
+        <p>Completed tasks: <span id="completedTasks">0</span></p> 
+    </div>
+    <script> 
+        let pendingCount = 0; 
+        let completedCount = 0;
+
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const task = taskInput.value;
+            if (task.trim() !== '') {
+                const taskElement = document.createElement('div');
+                taskElement.classList.add('task');
+                taskElement.textContent = task;
+                taskElement.onclick = function() {
+                    if (taskElement.classList.contains('completed')) {
+                        taskElement.classList.remove('completed');
+                        taskElement.classList.add('pending');
+                        completedCount--;
+                        pendingCount++;
+                    } else {
+                        taskElement.classList.remove('pending');
+                        taskElement.classList.add('completed');
+                        pendingCount--;
+                        completedCount++;
+                    }
+                    document.getElementById('pendingTasks').textContent = pendingCount;
+                    document.getElementById('completedTasks').textContent = completedCount;
+                };
+                document.getElementById('tasks').appendChild(taskElement);
+                pendingCount++;
+                document.getElementById('pendingTasks').textContent = pendingCount;
+                taskInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
